@@ -23,7 +23,6 @@ RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(
     && rm -rf /var/lib/apt/lists/*
 
 
-RUN mkdir -vp "/home/ubuntu/app/src"
 WORKDIR /home/ubuntu/app
 USER ubuntu
 ENV PATH="/home/ubuntu/.local/bin:${PATH}"
@@ -31,7 +30,10 @@ RUN python3 -m pip install --user --upgrade pip pipx
 RUN python3 -m pipx install poetry
 
 COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
-RUN touch src/main.py && poetry install && rm src/main.py
+RUN mkdir -vp "/home/ubuntu/app/src" \
+    && touch /home/ubuntu/app/src/main.py \
+    && poetry install \
+    && rm /home/ubuntu/app/src/main.py
 COPY --chown=ubuntu:ubuntu src/main.py /home/ubuntu/app/src
 
 USER root
