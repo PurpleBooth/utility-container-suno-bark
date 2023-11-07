@@ -35,7 +35,7 @@ COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
 RUN mkdir -vp "/home/ubuntu/app/src" \
     && touch /home/ubuntu/app/src/main.py \
     && poetry install \
-    && rm /home/ubuntu/app/src/main.py
+    && rm -v /home/ubuntu/app/src/main.py
 COPY --chown=ubuntu:ubuntu src/main.py /home/ubuntu/app/src
 
 USER root
