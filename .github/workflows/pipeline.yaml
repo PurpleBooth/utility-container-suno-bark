@@ -51,12 +51,15 @@ jobs:
       - name: Test run
         shell: bash
         run: |
-          echo "hello" | docker run \
+          INPUT_FOLDER="$(mktemp -d)"
+          OUTPUT_FOLDER="$(mktemp -d)"
+          echo "hello" > "$INPUT_FOLDER/file.txt"
+          docker run \
             --volume "$(mktemp -d):/cache" \
+            --volume "$INPUT_FOLDER:/in" \
+            --volume "$OUTPUT_FOLDER:/out" \
             --rm \
-            --interactive \
-            --tty \
-            "test" -- /dev/stdin /dev/null
+            "test" -- /in/file.txt /out/file.wav
 
   check-conventional-commits:
     uses: armakuni/github-actions/.github/workflows/check-conventional-commits.yml@v0.18.2
