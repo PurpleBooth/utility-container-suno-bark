@@ -186,8 +186,3 @@ jobs:
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Sign the images with GitHub OIDC Token
-        env:
-          REPO: ${{ steps.docker.outputs.repository }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: cosign sign --yes "$REPO@$DIGEST"
