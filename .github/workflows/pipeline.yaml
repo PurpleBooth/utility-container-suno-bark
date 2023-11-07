@@ -55,7 +55,7 @@ jobs:
           OUTPUT_FOLDER="$PWD/out"
           CACHE_FOLDER="$PWD/cache"
           mkdir -p "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
-          chmod -vR a+rwx "$CACHE_FOLDER/../*" "$INPUT_FOLDER/../*" "$OUTPUT_FOLDER/../*"
+          chmod -vR a+rwx "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
           echo "hello" > "$INPUT_FOLDER/file.txt"
           
           docker run \
