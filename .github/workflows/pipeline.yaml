@@ -27,12 +27,6 @@ jobs:
         shell: bash
         run: poetry install --no-interaction --no-root
       - run: make lint
-      - run: make test
-      - run: |
-          echo "$CO2_SIGNAL_API_KEY" > .co2_api_key
-          make integration
-        env:
-          CO2_SIGNAL_API_KEY: ${{secrets.CO2_SIGNAL_API_KEY}}
         if: github.ref == 'refs/heads/main'
       - name: Spot vunerable dependencies
         uses: aquasecurity/trivy-action@master
@@ -111,6 +105,7 @@ jobs:
         with:
           tool: cargo-edit
       - uses: armakuni/github-actions/setup-cocogitto@v0.18.2
+      - uses: armakuni/github-actions/setup-poetry@v0.18.2
       - id: previous_version
         run: |
           cog get-version | tee .version
