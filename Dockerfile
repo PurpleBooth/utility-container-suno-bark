@@ -34,8 +34,9 @@ COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
 RUN poetry install
 COPY --chown=ubuntu:ubuntu src/main.py /home/ubuntu/app/src
 
-# Warm up downloadables
-RUN echo hello | poetry run python3 src/main.py /dev/stdin /dev/null
+RUN mkdir -vp /cache
+ENV XDG_CACHE_HOME=/cache
+ENV NLTK_DATA=/cache
 
 ENTRYPOINT ["poetry", "run", "python3", "src/main.py"]
 CMD ["--help"]
