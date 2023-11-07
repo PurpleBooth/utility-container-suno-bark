@@ -1,4 +1,5 @@
 FROM ubuntu:22.04 as base
+ARG TARGETPLATFORM
 
 RUN groupadd -g 568 ubuntu \
     && useradd -rm -d /home/ubuntu -s /bin/bash --gid ubuntu -u 568 ubuntu
@@ -13,7 +14,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y  \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip python3-venv wget python3.11-full \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb" \
+RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(case "$TARGETPLATFORM" in "linux/amd64") echo "x86_64"; ;; "linux/arm64") echo "arm64"; ;; *) exit 99; ;; esac)/cuda-keyring_1.1-1_all.deb" \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
     && rm cuda-keyring_1.1-1_all.deb \
     && apt-get update \
