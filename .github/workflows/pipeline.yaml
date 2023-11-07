@@ -51,21 +51,34 @@ jobs:
         id: docker
         env:
           REPOSITORY: ${{ github.repository }}
-      - name: Deploy build for run
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@62339db73c56dd749060f65a6ebb93a6e056b755
+        with:
+          images: ${{ steps.docker.outputs.repository }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+      - name: Test build
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          push: false
+          pull: true
+          platforms: linux/amd64
+          cache-from: type=gha
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Test build to run
         uses: docker/build-push-action@v5.0.0
         with:
           context: .
           push: false
           pull: true
           load: true
-          platforms: linux/amd64
-          cache-to: type=registry,ref=${{ steps.docker.outputs.repository }}:cache,mode=max
-          cache-from: |
-            type=registry,ref=${{ steps.docker.outputs.repository }}:git-${{ github.sha }}
-            type=registry,ref=${{ steps.docker.outputs.repository }}:latest
-            type=registry,ref=${{ steps.docker.outputs.repository }}:cache
-          tags: |-
-            ${{ steps.docker.outputs.repository }}:latest
+          cache-from: type=gha
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Test run
         shell: bash
         run: |
@@ -75,6 +88,7 @@ jobs:
             --interactive \
             --tty \
             "${{ steps.docker.outputs.repository }}:latest" -- /dev/stdin /dev/null
+
   check-conventional-commits:
     uses: armakuni/github-actions/.github/workflows/check-conventional-commits.yml@v0.18.2
 
@@ -165,20 +179,30 @@ jobs:
         name: Turn repository name into docker registry name
         env:
           REPOSITORY: ${{ github.repository }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@62339db73c56dd749060f65a6ebb93a6e056b755
+        with:
+          images: ${{ steps.docker.outputs.repository }}
+          tags: |
+            type=raw,value=latest
+            type=semver,pattern={{version}},value=v${{ needs.release.outputs.current_version }}
+            type=sha
       - name: Deploy build
         uses: docker/build-push-action@v5.0.0
+        id: build-and-push
         with:
           context: .
           push: true
           pull: true
           platforms: linux/amd64
-          cache-to: type=registry,ref=${{ steps.docker.outputs.repository }}:cache,mode=max
-          cache-from: |
-            type=registry,ref=${{ steps.docker.outputs.repository }}:git-${{ github.sha }}
-            type=registry,ref=${{ steps.docker.outputs.repository }}:v${{ needs.release.outputs.current_version }}
-            type=registry,ref=${{ steps.docker.outputs.repository }}:latest
-            type=registry,ref=${{ steps.docker.outputs.repository }}:cache
-          tags: |-
-            ${{ steps.docker.outputs.repository }}:git-${{ github.sha }}
-            ${{ steps.docker.outputs.repository }}:latest
-            ${{ steps.docker.outputs.repository }}:v${{ needs.release.outputs.current_version }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Sign the images with GitHub OIDC Token
+        env:
+          REPO: ${{ steps.docker.outputs.repository }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        run: cosign sign --yes "$REPO@$DIGEST"
