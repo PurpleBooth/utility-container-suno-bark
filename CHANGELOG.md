@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.1.2 - 2023-11-07
+#### Bug Fixes
+- Use pause based chunking - (b0ac35a) - Billie Thompson
+
+- - -
+
 ## v0.1.1 - 2023-11-07
 #### Bug Fixes
 - Remove deprecated funtion call - (1b357f3) - Billie Thompson
