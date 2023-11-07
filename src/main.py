@@ -1,4 +1,4 @@
-from tempfile import mktemp
+from tempfile import NamedTemporaryFile
 from typing import Annotated
 
 import nltk
@@ -30,14 +30,16 @@ def main(
     sentences = nltk.sent_tokenize(text_prompt)
     silence = np.zeros(int(0.25 * SAMPLE_RATE))  # quarter second of silence
 
-    temp_file = mktemp(suffix=".npz")
+    temp_file = NamedTemporaryFile(suffix=".npz")
     history = None
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
-        (full_generation, audio_array) = generate_audio(sentence, history_prompt=history, output_full=True)
+        (full_generation, audio_array) = generate_audio(
+            sentence, history_prompt=history, output_full=True
+        )
 
-        save_as_prompt(temp_file, full_generation)
-        history = temp_file
+        save_as_prompt(temp_file.name, full_generation)
+        history = temp_file.name
         pieces += [audio_array, silence.copy()]
 
     write_wav(destination_wav_file, SAMPLE_RATE, np.concatenate(pieces))
