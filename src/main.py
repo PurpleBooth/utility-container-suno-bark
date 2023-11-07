@@ -3,6 +3,7 @@ from typing import Annotated
 
 import nltk
 import numpy as np
+import torch
 import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models, save_as_prompt
 from scipy.io.wavfile import write as write_wav
@@ -17,7 +18,12 @@ def main(
     destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
 ) -> None:
     nltk.download("punkt")
-    preload_models(1)
+    preload_models(
+        text_use_gpu=torch.cuda.is_available(),
+        coarse_use_gpu=torch.cuda.is_available(),
+        fine_use_gpu=torch.cuda.is_available(),
+        codec_use_gpu=torch.cuda.is_available(),
+    )
 
     text_prompt = " ".join(source_text_file.readlines()).strip()
 
