@@ -46,6 +46,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          docker pull ghcr.io/purplebooth/utility-container-suno-bark:latest || true
           docker build -t test .
       - name: Test run
         shell: bash
