@@ -63,16 +63,6 @@ jobs:
         uses: docker/build-push-action@v5.0.0
         with:
           context: .
-          push: false
-          pull: true
-          platforms: linux/amd64
-          cache-from: type=gha
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      - name: Test build
-        uses: docker/build-push-action@v5.0.0
-        with:
-          context: .
           load: true
           push: false
           pull: true
