@@ -51,11 +51,13 @@ jobs:
       - name: Test run
         shell: bash
         run: |
-          INPUT_FOLDER="$(mktemp -d)"
-          OUTPUT_FOLDER="$(mktemp -d)"
-          CACHE_FOLDER="$(mktemp -d)"
+          INPUT_FOLDER="$(mktemp -d)/in"
+          OUTPUT_FOLDER="$(mktemp -d)/out"
+          CACHE_FOLDER="$(mktemp -d)/cache"
+          mkdir -p "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
+          chmod -vR a+rwx "$CACHE_FOLDER/../*" "$INPUT_FOLDER/../*" "$OUTPUT_FOLDER/../*"
+          chown -vr 568:568 "$CACHE_FOLDER/../*" "$INPUT_FOLDER/../*" "$OUTPUT_FOLDER/../*"
           echo "hello" > "$INPUT_FOLDER/file.txt"
-          chmod -vR a+rwx "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
           
           docker run \
             --user=568:568 \
