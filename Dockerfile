@@ -1,6 +1,8 @@
 FROM ubuntu:22.04 as base
 ARG TARGETPLATFORM
 
+ENV SUNO_OFFLOAD_CPU="True"
+
 RUN mkdir -vp /home/ubuntu/app/src \
     && groupadd -g 568 ubuntu \
     && useradd -rm -d /home/ubuntu -s /bin/bash --gid ubuntu -u 568 ubuntu \
