@@ -14,3 +14,5 @@ Arguments:
 Options:
   --help  Show this message and exit.
 ```
+
+Models are downloaded to /cache, so you may want to mount that as a volume.
