@@ -32,7 +32,7 @@ RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(
     && apt-get clean
 
 # Setup predictable cache directories, that users can overwrite etc
-RUN mkdir -vp "/poetry-cache" "/cache" && chown -vR 568:568 "/poetry-cache" "/cache"
+RUN mkdir -vp "/poetry-cache" "/cache" && chown -vR 568:568 "/poetry-cache" "/cache" && chmod -v a+rw "/poetry-cache" "/cache"
 ENV POETRY_CACHE_DIR="/poetry-cache"
 
 # Switch to user
