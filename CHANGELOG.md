@@ -2,6 +2,44 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.1.1 - 2023-11-07
+#### Bug Fixes
+- Remove deprecated funtion call - (1b357f3) - Billie Thompson
+- Give poetry it's own cache directory, rather than having it use the one that will be overriden - (6c34af8) - Billie Thompson
+- Use history to prevent voice changing every sentence - (9d7f28f) - Billie Thompson
+- Cache models to known directory - (e586e63) - Billie Thompson
+#### Build system
+- Enable CPU offloading for the moddel - (61039e6) - Billie Thompson
+- Clean installers after installing - (f623207) - Billie Thompson
+- Print when we remove the main.py we create - (58001c5) - Billie Thompson
+- Correct creation of mkdir - (5879e23) - Billie Thompson
+- Fix permissions of home - (2278a64) - Billie Thompson
+- Correct permissions of src dir - (b49b867) - Billie Thompson
+- Remove arm, it's not supported by the cuda dependencies we need - (865a3a2) - Billie Thompson
+- Ensure cache dir is writable - (0dca381) - Billie Thompson
+#### Continuous Integration
+- Don't fill up drives totally - (0fcd4b4) - Billie Thompson
+- Free up disk space for models - (e8c9825) - Billie Thompson
+- Remove chmod - (a70804c) - Billie Thompson
+- Mount only inside the work directory for docker volumes - (61e8e33) - Billie Thompson
+- Change permissions on cache folders - (7cedfcc) - Billie Thompson
+- Ensure that input and output folders are accessible as the user in the container - (9727ef6) - Billie Thompson
+- Flag caches as rw - (4fd6a49) - Billie Thompson
+- Ensure we run as our ubuntu user - (917adcb) - Billie Thompson
+- Pass data via volumes rather than stdin for test - (f01c299) - Billie Thompson
+- Try a pull before the test build - (a1304a4) - Billie Thompson
+- Do not use docker build action as it is crashing - (a1cfdb8) - Billie Thompson
+- Add a file into the src directory - (69734c0) - Billie Thompson
+- Remove duplicated build step - (1636855) - Billie Thompson
+- Remove duplicated build step - (38efdf0) - Billie Thompson
+- Use gha for cache - (3b4e406) - Billie Thompson
+- Add an explicit test run - (ddef304) - Billie Thompson
+- correct package ecosystem for bumps - (a5ddecc) - Billie Thompson
+#### Documentation
+- Add note about cache dir to readme - (9004855) - Billie Thompson
+
+- - -
+
 ## v0.1.0 - 2023-11-07
 #### Build system
 - Correct cuda repo name on arm - (0d50006) - Billie Thompson
