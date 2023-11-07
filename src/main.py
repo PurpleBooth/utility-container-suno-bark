@@ -10,7 +10,9 @@ from typer import Argument, FileBinaryWrite, FileText
 
 
 def main(
-    source_text_file: Annotated[FileText, typer.Argument(..., file_okay=True, exists=True)],
+    source_text_file: Annotated[
+        FileText, typer.Argument(..., file_okay=True, exists=True)
+    ],
     destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
 ) -> None:
     nltk.download("punkt")
