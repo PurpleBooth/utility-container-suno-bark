@@ -57,5 +57,6 @@ ENV XDG_CACHE_HOME=/cache
 ENV NLTK_DATA=/cache
 
 # Run command
+USER ubuntu
 ENTRYPOINT ["poetry", "run", "python3", "src/main.py"]
 CMD ["--help"]

@@ -55,6 +55,7 @@ jobs:
           OUTPUT_FOLDER="$(mktemp -d)"
           echo "hello" > "$INPUT_FOLDER/file.txt"
           docker run \
+            --user=568:568 \
             --volume "$(mktemp -d):/cache" \
             --volume "$INPUT_FOLDER:/in" \
             --volume "$OUTPUT_FOLDER:/out" \
