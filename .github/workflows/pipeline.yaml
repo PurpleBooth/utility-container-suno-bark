@@ -47,6 +47,7 @@ jobs:
           remove-haskell: 'true'
           remove-codeql: 'true'
           remove-docker-images: 'true'
+          overprovision-lvm: 'true'
       - name: Checkout
         uses: actions/checkout@v4.1.1
         with:
