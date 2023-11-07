@@ -31,7 +31,7 @@ RUN python3 -m pip install --user --upgrade pip pipx
 RUN python3 -m pipx install poetry
 
 COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
-RUN poetry install
+RUN touch src/main.py && poetry install && rm src/main.py
 COPY --chown=ubuntu:ubuntu src/main.py /home/ubuntu/app/src
 
 USER root
