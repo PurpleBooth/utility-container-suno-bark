@@ -9,12 +9,14 @@ RUN mkdir -vp /home/ubuntu/app/src \
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
-    && rm -vrf /var/lib/apt/lists/*
+    && rm -vrf /var/lib/apt/lists/* \
+    && apt-get clean
 
 RUN add-apt-repository ppa:deadsnakes/ppa -y  \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip python3-venv wget python3.11-full \
-    && rm -vrf /var/lib/apt/lists/*
+    && rm -vrf /var/lib/apt/lists/* \
+    && apt-get clean
 
 RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(case "$TARGETPLATFORM" in "linux/amd64") echo "x86_64"; ;; "linux/arm64") echo "arm64"; ;; *) exit 99; ;; esac)/cuda-keyring_1.1-1_all.deb" \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
@@ -22,7 +24,8 @@ RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-toolkit libcudnn8 libcudnn8-dev libnccl2 libnccl-dev \
-    && rm -vrf /var/lib/apt/lists/*
+    && rm -vrf /var/lib/apt/lists/* \
+    && apt-get clean
 
 
 WORKDIR /home/ubuntu/app
