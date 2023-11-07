@@ -65,7 +65,30 @@ jobs:
           tags: |-
             ${{ steps.docker.outputs.repository }}:git-${{ github.sha }}
             ${{ steps.docker.outputs.repository }}:latest
-
+      - name: Deploy build for run
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          push: false
+          pull: true
+          load: true
+          platforms: linux/amd64
+          cache-to: type=registry,ref=${{ steps.docker.outputs.repository }}:cache,mode=max
+          cache-from: |
+            type=registry,ref=${{ steps.docker.outputs.repository }}:git-${{ github.sha }}
+            type=registry,ref=${{ steps.docker.outputs.repository }}:latest
+            type=registry,ref=${{ steps.docker.outputs.repository }}:cache
+          tags: |-
+            ${{ steps.docker.outputs.repository }}:latest
+      - name: Test run
+        shell: bash
+        run: |
+          echo "hello" | docker run \
+            --volume "$(mktemp -d):/cache" \
+            --rm \
+            --interactive \
+            --tty \
+            "${{ steps.docker.outputs.repository }}:latest" -- /dev/stdin /dev/null
   check-conventional-commits:
     uses: armakuni/github-actions/.github/workflows/check-conventional-commits.yml@v0.18.2
 
