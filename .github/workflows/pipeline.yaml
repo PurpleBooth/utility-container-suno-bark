@@ -51,16 +51,14 @@ jobs:
       - name: Test run
         shell: bash
         run: |
-          INPUT_FOLDER="$(mktemp -d)/in"
-          OUTPUT_FOLDER="$(mktemp -d)/out"
-          CACHE_FOLDER="$(mktemp -d)/cache"
+          INPUT_FOLDER="$PWD/in"
+          OUTPUT_FOLDER="$PWD/out"
+          CACHE_FOLDER="$PWD/cache"
           mkdir -p "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
           chmod -vR a+rwx "$CACHE_FOLDER/../*" "$INPUT_FOLDER/../*" "$OUTPUT_FOLDER/../*"
-          chown -vr 568:568 "$CACHE_FOLDER/../*" "$INPUT_FOLDER/../*" "$OUTPUT_FOLDER/../*"
           echo "hello" > "$INPUT_FOLDER/file.txt"
           
           docker run \
-            --user=568:568 \
             --volume "$CACHE_FOLDER:/cache" \
             --volume "$INPUT_FOLDER:/in" \
             --volume "$OUTPUT_FOLDER:/out" \
