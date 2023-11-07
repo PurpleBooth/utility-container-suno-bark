@@ -34,7 +34,10 @@ COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
 RUN poetry install
 COPY --chown=ubuntu:ubuntu src/main.py /home/ubuntu/app/src
 
-RUN mkdir -vp /cache
+USER root
+RUN mkdir -vp /cache && chown -R ubuntu:ubuntu /cache
+USER ubuntu
+
 ENV XDG_CACHE_HOME=/cache
 ENV NLTK_DATA=/cache
 
