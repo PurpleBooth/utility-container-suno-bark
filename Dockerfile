@@ -1,7 +1,7 @@
 FROM ubuntu:22.04 as base
 ARG TARGETPLATFORM
 
-RUN mkdir -v /home/ubuntu/app/src \
+RUN mkdir -vp /home/ubuntu/app/src \
     && groupadd -g 568 ubuntu \
     && useradd -rm -d /home/ubuntu -s /bin/bash --gid ubuntu -u 568 ubuntu \
     && chown -vR ubuntu:ubuntu /home/ubuntu
@@ -32,7 +32,7 @@ RUN python3 -m pip install --user --upgrade pip pipx
 RUN python3 -m pipx install poetry
 
 COPY --chown=ubuntu:ubuntu poetry.lock pyproject.toml /home/ubuntu/app/
-RUN mkdir -v "/home/ubuntu/app/src" \
+RUN mkdir -vp "/home/ubuntu/app/src" \
     && touch /home/ubuntu/app/src/main.py \
     && poetry install \
     && rm /home/ubuntu/app/src/main.py
