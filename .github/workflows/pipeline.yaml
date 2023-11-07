@@ -53,10 +53,13 @@ jobs:
         run: |
           INPUT_FOLDER="$(mktemp -d)"
           OUTPUT_FOLDER="$(mktemp -d)"
+          CACHE_FOLDER="$(mktemp -d)"
           echo "hello" > "$INPUT_FOLDER/file.txt"
+          chmod -vR a+rwx "$CACHE_FOLDER" "$INPUT_FOLDER" "$OUTPUT_FOLDER"
+          
           docker run \
             --user=568:568 \
-            --volume "$(mktemp -d):/cache" \
+            --volume "$CACHE_FOLDER:/cache" \
             --volume "$INPUT_FOLDER:/in" \
             --volume "$OUTPUT_FOLDER:/out" \
             --rm \
