@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.3.0 - 2023-11-08
+#### Bug Fixes
+- Remove unused dependency - (7e1eb85) - Billie Thompson
+- Do not clear print line - (946cfa7) - Billie Thompson
+- Install and then remove wget when installing cuda - (2d210ae) - Billie Thompson
+- Remove some unused deps to reduce the image weight - (43dbaa3) - Billie Thompson
+#### Features
+- Use small models on CPU - (0a9f75c) - Billie Thompson
+- Make the prompt customizable - (423b8fb) - Billie Thompson
+
+- - -
+
 ## v0.2.0 - 2023-11-08
 #### Continuous Integration
 - Skip signing - (1447cf9) - Billie Thompson
