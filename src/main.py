@@ -12,14 +12,14 @@ from typer import Argument, FileBinaryWrite
 
 
 def main(
-        source_text_file: Annotated[
-            str,
-            typer.Argument(
-                ...,
-                help="Text file to use as source for generation, could be a file path or url",
-            ),
-        ],
-        destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
+    source_text_file: Annotated[
+        str,
+        typer.Argument(
+            ...,
+            help="Text file to use as source for generation, could be a file path or url",
+        ),
+    ],
+    destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
 ) -> None:
     preload_models(
         text_use_small=not torch.cuda.is_available(),
@@ -43,6 +43,7 @@ def main(
 
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
+        print("\n")
         audio_array = generate_audio(sentence, history_prompt="v2/en_speaker_1")
         pieces += [audio_array, silence.copy()]
 
