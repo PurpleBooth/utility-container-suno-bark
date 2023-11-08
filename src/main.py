@@ -3,17 +3,22 @@ from tempfile import NamedTemporaryFile
 from typing import Annotated
 
 import numpy as np
+import requests
 import torch
 import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models, save_as_prompt
 from scipy.io.wavfile import write as write_wav
 from tqdm import tqdm
-from typer import Argument, FileBinaryWrite, FileText
+from typer import Argument, FileBinaryWrite
 
 
 def main(
     source_text_file: Annotated[
-        FileText, typer.Argument(..., file_okay=True, exists=True)
+        str,
+        typer.Argument(
+            ...,
+            help="Text file to use as source for generation, could be a file path or url",
+        ),
     ],
     destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
 ) -> None:
@@ -24,7 +29,11 @@ def main(
         codec_use_gpu=torch.cuda.is_available(),
     )
 
-    text_prompt = "\n".join(source_text_file.readlines()).strip()
+    if source_text_file.startswith("http:") or source_text_file.startswith("https:"):
+        text_prompt = requests.get(source_text_file, timeout=60).text.strip()
+    else:
+        with open(source_text_file, "r") as f:
+            text_prompt = f.read().strip()
 
     sentences = split_and_recombine_text(text_prompt)
     silence = np.zeros(int(0.25 * SAMPLE_RATE))  # quarter second of silence

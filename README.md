@@ -8,7 +8,7 @@ A container for generating speech from text.
 Usage: main.py [OPTIONS] SOURCE_TEXT_FILE DESTINATION_WAV_FILE
 
 Arguments:
-  SOURCE_TEXT_FILE      [required]
+  SOURCE_TEXT_FILE      Text file to use as source for generation, could be a file path or url  [required]
   DESTINATION_WAV_FILE  [required]
 
 Options:
