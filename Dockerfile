@@ -7,17 +7,14 @@ RUN mkdir -vp /home/ubuntu/app/src \
     && useradd -rm -d /home/ubuntu -s /bin/bash --gid ubuntu -u 568 ubuntu \
     && chown -vR ubuntu:ubuntu /home/ubuntu
 
-# Create make "add-apt-repository" work
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
-    && rm -vrf /var/lib/apt/lists/* \
-    && apt-get clean
-
 # Install python
-RUN add-apt-repository ppa:deadsnakes/ppa -y  \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y gpg wget \
+    && wget -O- "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf23c5a6cf475977595c89f51ba6932366a755776" | gpg --dearmor > /etc/apt/trusted.gpg.d/deadsnakes-ppa.gpg \
+    && echo "deb [signed-by=/etc/apt/trusted.gpg.d/deadsnakes-ppa.gpg] http://ppa.launchpad.net/deadsnakes/ppa/ubuntu $(cat /etc/lsb-release | grep -F DISTRIB_CODENAME= | cut -f2 -d "=") main \ndeb-src [signed-by=/etc/apt/trusted.gpg.d/deadsnakes-ppa.gpg] https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu jammy $(cat /etc/lsb-release | grep -F DISTRIB_CODENAME= | cut -f2 -d "=") " > /etc/apt/sources.list.d/deadsnakes.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip python3-venv wget python3.11-full \
+    && DEBIAN_FRONTEND=noninteractive apt-get remove -y gpg wget \
     && rm -vrf /var/lib/apt/lists/* \
     && apt-get clean
 
@@ -27,7 +24,7 @@ RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(
     && rm -v cuda-keyring_1.1-1_all.deb \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-toolkit libcudnn8 libcudnn8-dev libnccl2 libnccl-dev \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-toolkit libcudnn8 libnccl2 \
     && rm -vrf /var/lib/apt/lists/* \
     && apt-get clean
 
