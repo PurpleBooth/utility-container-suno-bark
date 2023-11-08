@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.2.0 - 2023-11-08
+#### Continuous Integration
+- Skip signing - (1447cf9) - Billie Thompson
+#### Documentation
+- Add link to license - (34fcdc2) - Billie Thompson
+- update license to reflect license - (0687e21) - Billie Thompson
+#### Features
+- Allow text source to be an http url - (f038970) - Billie Thompson
+
+- - -
+
 ## v0.1.2 - 2023-11-07
 #### Bug Fixes
 - Use pause based chunking - (b0ac35a) - Billie Thompson
