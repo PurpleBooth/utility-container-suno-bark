@@ -1,8 +1,3 @@
-This code is licensed under the Unlicense, excluding the
-"split_and_recombine_text", function which is licensed under the
-Apache 2 license of the original project,
-tortoise-tts (https://github.com/neonbjb/tortoise-tts/blob/main/tortoise/utils/text.py).
-
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
