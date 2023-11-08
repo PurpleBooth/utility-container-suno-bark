@@ -21,6 +21,13 @@ def main(
         ),
     ],
     destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
+    voice_prompt: Annotated[
+        str,
+        Argument(
+            ...,
+            help="This is used to create an initial phrase that will generate the voice of the speaker.",
+        ),
+    ] = "This is being recorded in a studio.",
 ) -> None:
     preload_models(
         text_use_gpu=torch.cuda.is_available(),
@@ -39,7 +46,7 @@ def main(
     silence = np.zeros(int(0.25 * SAMPLE_RATE))  # quarter second of silence
 
     (full_generation, _) = generate_audio(
-        "This is being recorded in a studio.",
+        voice_prompt,
         output_full=True,
     )
     temp_file = NamedTemporaryFile(suffix=".npz")

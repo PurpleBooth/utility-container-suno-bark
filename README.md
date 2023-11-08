@@ -4,12 +4,16 @@ A container for generating speech from text.
 
 ## Usage
 
-```yaml
-Usage: main.py [OPTIONS] SOURCE_TEXT_FILE DESTINATION_WAV_FILE
+```
+Usage: main.py [OPTIONS] SOURCE_TEXT_FILE DESTINATION_WAV_FILE [VOICE_PROMPT]
 
 Arguments:
-  SOURCE_TEXT_FILE      Text file to use as source for generation, could be a file path or url  [required]
+  SOURCE_TEXT_FILE      Text file to use as source for generation, could be a
+                        file path or url  [required]
   DESTINATION_WAV_FILE  [required]
+  [VOICE_PROMPT]        This is used to create an initial phrase that will
+                        generate the voice of the speaker.  [default: This is
+                        being recorded in a studio.]
 
 Options:
   --help  Show this message and exit.
