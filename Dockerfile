@@ -19,12 +19,15 @@ RUN apt-get update \
     && apt-get clean
 
 # Install cuda
-RUN wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(case "$TARGETPLATFORM" in "linux/amd64") echo "x86_64"; ;; "linux/arm64") echo "arm64"; ;; *) exit 99; ;; esac)/cuda-keyring_1.1-1_all.deb" \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget \
+    && wget "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/$(case "$TARGETPLATFORM" in "linux/amd64") echo "x86_64"; ;; "linux/arm64") echo "arm64"; ;; *) exit 99; ;; esac)/cuda-keyring_1.1-1_all.deb" \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
     && rm -v cuda-keyring_1.1-1_all.deb \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y cuda-toolkit libcudnn8 libnccl2 \
+    && DEBIAN_FRONTEND=noninteractive apt-get remove -y wget \
     && rm -vrf /var/lib/apt/lists/* \
     && apt-get clean
 
