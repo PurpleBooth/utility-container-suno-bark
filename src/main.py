@@ -44,7 +44,7 @@ def main(
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
         audio_array = generate_audio(
-            sentence, history_prompt="v2/en_speaker_9", silent=True, waveform_temp=0.6
+            sentence, history_prompt="v2/en_speaker_9", silent=True
         )
         pieces += [audio_array, silence.copy()]
 
