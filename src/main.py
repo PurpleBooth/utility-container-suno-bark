@@ -1,9 +1,10 @@
+import os
+import torch
 from typing import Annotated
 
 import nltk
 import numpy as np
 import requests
-import torch
 import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models
 from scipy.io.wavfile import write as write_wav
@@ -43,11 +44,10 @@ def main(
 
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
-        print("\n")
-        audio_array = generate_audio(sentence, history_prompt="v2/en_speaker_1")
+        audio_array = generate_audio(sentence, history_prompt="v2/en_speaker_9", silent=True, waveform_temp=0.6)
         pieces += [audio_array, silence.copy()]
 
-    write_wav(destination_wav_file, SAMPLE_RATE, np.concatenate(pieces))
+    write_wav(destination_wav_file, SAMPLE_RATE, np.concatenate(pieces).flatten())
 
 
 if __name__ == "__main__":
