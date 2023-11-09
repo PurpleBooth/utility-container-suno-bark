@@ -33,7 +33,9 @@ def main(
     nltk.download("punkt")
 
     if source_text_file.startswith("http:") or source_text_file.startswith("https:"):
-        text_prompt = requests.get(source_text_file, timeout=60).text.strip()
+        response = requests.get(source_text_file, timeout=60)
+        response.raise_for_status()
+        text_prompt = response.text.strip()
     else:
         with open(source_text_file, "r") as f:
             text_prompt = f.read().strip()
