@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.3.2 - 2023-11-09
+#### Bug Fixes
+- formatting - (9d37e11) - Billie Thompson
+- Add a squash in and make the output less noisy - (a653841) - Billie Thompson
+#### Refactoring
+- formatting - (73bfd64) - Billie Thompson
+
+- - -
+
 ## v0.3.1 - 2023-11-09
 #### Bug Fixes
 - Add torch audio - (5eb12a5) - Billie Thompson
