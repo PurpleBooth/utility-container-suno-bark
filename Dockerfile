@@ -31,6 +31,12 @@ RUN apt-get update \
     && rm -vrf /var/lib/apt/lists/* \
     && apt-get clean
 
+# Install ffmpeg
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y ffmpeg \
+    && rm -vrf /var/lib/apt/lists/* \
+    && apt-get clean
+
 # Setup predictable cache directories, that users can overwrite etc
 RUN mkdir -vp "/poetry-cache" "/cache" && chown -vR 568:568 "/poetry-cache" "/cache" && chmod -v a+rw "/poetry-cache" "/cache"
 ENV POETRY_CACHE_DIR="/poetry-cache"

@@ -1,3 +1,6 @@
+import os
+import shlex
+import subprocess
 from typing import Annotated
 
 import nltk
@@ -19,7 +22,7 @@ def main(
             help="Text file to use as source for generation, could be a file path or url",
         ),
     ],
-    destination_wav_file: Annotated[FileBinaryWrite, Argument(...)],
+    destination_file: Annotated[FileBinaryWrite, Argument(...)],
 ) -> None:
     preload_models(
         text_use_small=not torch.cuda.is_available(),
@@ -41,7 +44,7 @@ def main(
             text_prompt = f.read().strip()
 
     sentences = nltk.sent_tokenize(text_prompt)
-    silence = np.zeros(int(0.1 * SAMPLE_RATE))  # tenth of a second of silence
+    silence = np.zeros(int(0.2 * SAMPLE_RATE))  # tenth of a second of silence
 
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
@@ -50,7 +53,26 @@ def main(
         )
         pieces += [audio_array, silence.copy()]
 
-    write_wav(destination_wav_file, SAMPLE_RATE, np.concatenate(pieces).flatten())
+    wav_path = f"{destination_file.name}.wav"
+    write_wav(wav_path, SAMPLE_RATE, np.concatenate(pieces).flatten())
+
+    if os.path.exists(destination_file.name):
+        os.unlink(destination_file.name)
+
+    # note the escaping below
+    subprocess.run(
+        [  # noqa: S603,S607
+            "ffmpeg",
+            "-i",
+            shlex.quote(wav_path),
+            "-af",
+            "highpass=f=300,afftdn=nf=-20,dialoguenhance,lowpass=f=3000",
+            "-ar",
+            shlex.quote(str(SAMPLE_RATE)),
+            shlex.quote(destination_file.name),
+        ]
+    )
+    os.unlink(wav_path)
 
 
 if __name__ == "__main__":
