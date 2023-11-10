@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.5.0 - 2023-11-10
+#### Bug Fixes
+- Disable the small model - (cda5d32) - Billie Thompson
+#### Features
+- Allow the creation of prompts by voice - (1b2c854) - Billie Thompson
+#### Refactoring
+- Tidy up preprocess - (8f69ce7) - Billie Thompson
+
+- - -
+
 ## v0.4.0 - 2023-11-10
 #### Features
 - Denoise audio - (0a296a6) - Billie Thompson
