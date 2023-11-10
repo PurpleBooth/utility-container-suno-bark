@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.3.4 - 2023-11-10
+#### Bug Fixes
+- reduce pause - (3e59cff) - Billie Thompson
+#### Build system
+- **(deps-dev)** bump ruff from 0.1.4 to 0.1.5 - (5af4a09) - dependabot[bot]
+
+- - -
+
 ## v0.3.3 - 2023-11-09
 #### Bug Fixes
 - Raise on bad response - (ea8117c) - Billie Thompson
