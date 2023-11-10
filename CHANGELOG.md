@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.4.0 - 2023-11-10
+#### Features
+- Denoise audio - (0a296a6) - Billie Thompson
+
+- - -
+
 ## v0.3.4 - 2023-11-10
 #### Bug Fixes
 - reduce pause - (3e59cff) - Billie Thompson
