@@ -40,11 +40,8 @@ def main(
     ] = "v2/en_speaker_9",
 ) -> None:
     preload_models(
-        text_use_small=not torch.cuda.is_available(),
         text_use_gpu=torch.cuda.is_available(),
-        coarse_use_small=not torch.cuda.is_available(),
         coarse_use_gpu=torch.cuda.is_available(),
-        fine_use_small=not torch.cuda.is_available(),
         fine_use_gpu=torch.cuda.is_available(),
         codec_use_gpu=torch.cuda.is_available(),
     )
