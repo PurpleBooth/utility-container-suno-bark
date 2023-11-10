@@ -1,7 +1,5 @@
-import itertools
 import os
 import shlex
-import string
 import subprocess
 from tempfile import NamedTemporaryFile
 from typing import Annotated, Optional
@@ -16,6 +14,7 @@ from scipy.io.wavfile import write as write_wav
 from tqdm import tqdm
 from typer import Argument, FileBinaryWrite, Option
 
+
 def main(
     source_text_file: Annotated[
         str,
@@ -25,8 +24,20 @@ def main(
         ),
     ],
     destination_file: Annotated[FileBinaryWrite, Argument(...)],
-    voice_prompt: Annotated[Optional[str], Option(...)] = None,
-    voice_preset: Annotated[Optional[str], Option(...)] = "v2/en_speaker_9",
+    voice_prompt: Annotated[
+        Optional[str],
+        Option(
+            ...,
+            help="This will override any voice preset",
+        ),
+    ] = None,
+    voice_preset: Annotated[
+        Optional[str],
+        Option(
+            ...,
+            help="Voice preset, could be one of the built in ones or a path to a saved history",
+        ),
+    ] = "v2/en_speaker_9",
 ) -> None:
     preload_models(
         text_use_small=not torch.cuda.is_available(),
@@ -38,8 +49,6 @@ def main(
         codec_use_gpu=torch.cuda.is_available(),
     )
     nltk.download("punkt")
-    ssp = nltk.SyllableTokenizer()
-
     if source_text_file.startswith("http:") or source_text_file.startswith("https:"):
         response = requests.get(source_text_file, timeout=60)
         response.raise_for_status()
@@ -48,7 +57,7 @@ def main(
         with open(source_text_file, "r") as f:
             text_prompt = f.read().strip()
 
-    sentences = pre_process_text(ssp, text_prompt)
+    sentences = pre_process_text(text_prompt)
 
     silence = np.zeros(int(0.2 * SAMPLE_RATE))  # fifth of a second of silence
 
@@ -87,24 +96,31 @@ def main(
     os.unlink(wav_path)
 
 
-def pre_process_text(ssp, text_prompt):
+def pre_process_text(text_prompt: str) -> list[str]:
     sentences = nltk.sent_tokenize(text_prompt)
-    grouped_sentences: list[str] = ['']
+    grouped_sentences: list[str] = [""]
     while len(sentences) > 0:
-        # If this is a new block, the sentence just drops in there.
-        if len(grouped_sentences[-1]) == 0:
-            grouped_sentences[-1] = sentences.pop(0)
-            continue
-
         # If we have gone over the rough syllable limit start a new chunk
-        if len(ssp.tokenize(grouped_sentences[-1])) > 35:
-            grouped_sentences.append('')
+        if count_syllables_in_phrase_roughly(grouped_sentences[-1]) > 30:
+            grouped_sentences.append("")
             continue
 
-        grouped_sentences[-1] += " "
+        if len(grouped_sentences[-1]) > 0:
+            grouped_sentences[-1] += " "
+
         grouped_sentences[-1] += sentences.pop(0)
-    sentences = grouped_sentences
-    return sentences
+    return grouped_sentences
+
+
+def count_syllables_in_phrase_roughly(phrase: str) -> int:
+    return sum(
+        map(count_syllables_in_word_roughly, phrase.replace("\n", " ").split(" "))
+    )
+
+
+def count_syllables_in_word_roughly(word: str) -> int:
+    ssp = nltk.SyllableTokenizer()
+    return len(ssp.tokenize(word))
 
 
 if __name__ == "__main__":
