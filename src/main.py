@@ -41,7 +41,7 @@ def main(
             text_prompt = f.read().strip()
 
     sentences = nltk.sent_tokenize(text_prompt)
-    silence = np.zeros(int(0.25 * SAMPLE_RATE))  # quarter second of silence
+    silence = np.zeros(int(0.1 * SAMPLE_RATE))  # tenth of a second of silence
 
     pieces = []
     for sentence in tqdm(sentences, unit="sentence"):
