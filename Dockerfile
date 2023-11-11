@@ -38,7 +38,7 @@ RUN apt-get update \
     && tar -xvf "ffmpeg-release-$( case "$TARGETPLATFORM" in "linux/amd64") echo "amd64" ; ;; "linux/arm64") echo "arm64" ; ;; *) exit 99; ;; esac)-static.tar.xz" \
     && mv -v ffmpeg-*-static /var/opt/ffmpeg \
     && DEBIAN_FRONTEND=noninteractive apt-get remove -y wget xz-utils \
-    && rm -vrf /var/lib/apt/lists/* \
+    && rm -vrf /var/lib/apt/lists/* "ffmpeg-release-$( case "$TARGETPLATFORM" in "linux/amd64") echo "amd64" ; ;; "linux/arm64") echo "arm64" ; ;; *) exit 99; ;; esac)-static.tar.xz" \
     && apt-get clean
 ENV PATH="/var/opt/ffmpeg:${PATH}"
 
