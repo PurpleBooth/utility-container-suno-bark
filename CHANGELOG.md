@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.5.1 - 2023-11-11
+#### Bug Fixes
+- Add ffmpeg - (88a26f9) - Billie Thompson
+#### Build system
+- **(deps-dev)** bump mypy from 1.6.1 to 1.7.0 - (f4cf61b) - dependabot[bot]
+#### Refactoring
+- Delete unused tar at end of ffmpeg install - (b452197) - Billie Thompson
+
+- - -
+
 ## v0.5.0 - 2023-11-10
 #### Bug Fixes
 - Disable the small model - (cda5d32) - Billie Thompson
