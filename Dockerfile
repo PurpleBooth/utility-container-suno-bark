@@ -33,9 +33,14 @@ RUN apt-get update \
 
 # Install ffmpeg
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y ffmpeg \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y wget xz-utils \
+    && wget "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-$( case "$TARGETPLATFORM" in "linux/amd64") echo "amd64" ; ;; "linux/arm64") echo "arm64" ; ;; *) exit 99; ;; esac)-static.tar.xz" \
+    && tar -xvf "ffmpeg-release-$( case "$TARGETPLATFORM" in "linux/amd64") echo "amd64" ; ;; "linux/arm64") echo "arm64" ; ;; *) exit 99; ;; esac)-static.tar.xz" \
+    && mv -v ffmpeg-*-static /var/opt/ffmpeg \
+    && DEBIAN_FRONTEND=noninteractive apt-get remove -y wget xz-utils \
     && rm -vrf /var/lib/apt/lists/* \
     && apt-get clean
+ENV PATH="/var/opt/ffmpeg:${PATH}"
 
 # Setup predictable cache directories, that users can overwrite etc
 RUN mkdir -vp "/poetry-cache" "/cache" && chown -vR 568:568 "/poetry-cache" "/cache" && chmod -v a+rw "/poetry-cache" "/cache"
