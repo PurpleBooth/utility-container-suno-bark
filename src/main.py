@@ -1,7 +1,9 @@
 import os
 import shlex
 import subprocess
+from functools import cache
 from tempfile import NamedTemporaryFile
+from textwrap import shorten
 from typing import Annotated, Optional
 
 import nltk
@@ -67,7 +69,10 @@ def main(
         voice_preset = prompt_file.name
 
     pieces = []
-    for sentence in tqdm(sentences, unit="sentence"):
+    for sentence in (pbar := tqdm(sentences, unit="sentence")):
+        pbar.set_description(
+            f"Generating: {shorten(sentence, width=20)}".replace("\n", " ")
+        )
         audio_array = generate_audio(sentence, history_prompt=voice_preset, silent=True)
         pieces += [audio_array, silence.copy()]
 
@@ -109,12 +114,14 @@ def pre_process_text(text_prompt: str) -> list[str]:
     return grouped_sentences
 
 
+@cache
 def count_syllables_in_phrase_roughly(phrase: str) -> int:
     return sum(
         map(count_syllables_in_word_roughly, phrase.replace("\n", " ").split(" "))
     )
 
 
+@cache
 def count_syllables_in_word_roughly(word: str) -> int:
     ssp = nltk.SyllableTokenizer()
     return len(ssp.tokenize(word))
