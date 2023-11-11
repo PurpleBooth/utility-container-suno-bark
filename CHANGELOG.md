@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.6.0 - 2023-11-11
+#### Features
+- Cache sylable counting - (797c0e6) - Billie Thompson
+
+- - -
+
 ## v0.5.1 - 2023-11-11
 #### Bug Fixes
 - Add ffmpeg - (88a26f9) - Billie Thompson
