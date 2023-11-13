@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - uses: armakuni/github-actions/setup-poetry@v0.18.2
+      - uses: armakuni/github-actions/setup-poetry@v0.19.0
       - name: Install dependencies
         shell: bash
         run: poetry install --no-interaction --no-root
@@ -75,10 +75,10 @@ jobs:
             "test" -- /in/file.txt /out/file.wav
 
   check-conventional-commits:
-    uses: armakuni/github-actions/.github/workflows/check-conventional-commits.yml@v0.18.2
+    uses: armakuni/github-actions/.github/workflows/check-conventional-commits.yml@v0.19.0
 
   lint-pipeline:
-    uses: armakuni/github-actions/.github/workflows/lint-pipeline.yml@v0.18.2
+    uses: armakuni/github-actions/.github/workflows/lint-pipeline.yml@v0.19.0
 
 
   all-tests-succeeded:
@@ -112,8 +112,8 @@ jobs:
       - uses: taiki-e/cache-cargo-install-action@v1
         with:
           tool: cargo-edit
-      - uses: armakuni/github-actions/setup-cocogitto@v0.18.2
-      - uses: armakuni/github-actions/setup-poetry@v0.18.2
+      - uses: armakuni/github-actions/setup-cocogitto@v0.19.0
+      - uses: armakuni/github-actions/setup-poetry@v0.19.0
       - id: previous_version
         run: |
           cog get-version | tee .version
