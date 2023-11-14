@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.8.0 - 2023-11-14
+#### Features
+- add colours to the ui - (1478470) - Billie Thompson
+#### Refactoring
+- Formatting - (b0e745d) - Billie Thompson
+
+- - -
+
 ## v0.7.1 - 2023-11-14
 #### Bug Fixes
 - Cache generated phrases for a minor perf bump - (bb85cd0) - Billie Thompson
