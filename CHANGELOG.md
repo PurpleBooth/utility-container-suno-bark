@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.7.0 - 2023-11-14
+#### Bug Fixes
+- **(deps)** bump numpy from 1.26.1 to 1.26.2 - (fa63298) - dependabot[bot]
+#### Continuous Integration
+- **(deps)** bump armakuni/github-actions from 0.18.2 to 0.19.0 - (24be854) - dependabot[bot]
+- Remove tests from pipeline - (df00f80) - Billie Thompson
+#### Features
+- Handle long sentences by splitting them - (8b86020) - Billie Thompson
+#### Tests
+- Add tests to pipeline - (c137372) - Billie Thompson
+
+- - -
+
 ## v0.6.0 - 2023-11-11
 #### Features
 - Cache sylable counting - (797c0e6) - Billie Thompson
