@@ -2,7 +2,7 @@ import os
 import shlex
 import string
 import subprocess
-from functools import cache
+from functools import lru_cache
 from tempfile import NamedTemporaryFile
 from typing import Annotated, Optional
 
@@ -14,6 +14,8 @@ import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models, save_as_prompt
 from scipy.io.wavfile import write as write_wav
 from typer import Argument, FileBinaryWrite, Option
+
+cached_generate_audio = lru_cache(maxsize=1024)(generate_audio)
 
 
 def main(
@@ -76,7 +78,9 @@ def main(
         show_pos=True,
     ) as sentences_with_progress:
         for sentence in sentences_with_progress:
-            audio_array = make_wav_data(sentence, voice_preset)
+            audio_array = cached_generate_audio(
+                sentence, history_prompt=voice_preset, silent=True
+            )
             pieces += [audio_array, silence.copy()]
 
     wav_path = f"{destination_file.name}.wav"
@@ -99,11 +103,6 @@ def main(
         ]
     )
     os.unlink(wav_path)
-
-
-@cache
-def make_wav_data(sentence: str, voice_preset: str) -> np.ndarray:
-    return generate_audio(sentence, history_prompt=voice_preset, silent=True)
 
 
 def pre_process_text(text_prompt: str) -> list[str]:
@@ -135,7 +134,7 @@ def pre_process_text(text_prompt: str) -> list[str]:
     return grouped_sentences
 
 
-@cache
+@lru_cache(maxsize=1024)
 def split_phrase(phrase: str) -> list[str]:
     words = nltk.word_tokenize(phrase)
     new = [""]
@@ -157,14 +156,14 @@ def split_phrase(phrase: str) -> list[str]:
     return new
 
 
-@cache
+@lru_cache(maxsize=1024)
 def count_syllables_in_phrase_roughly(phrase: str) -> int:
     return sum(
         map(count_syllables_in_word_roughly, phrase.replace("\n", " ").split(" "))
     )
 
 
-@cache
+@lru_cache(maxsize=1024)
 def count_syllables_in_word_roughly(word: str) -> int:
     ssp = nltk.SyllableTokenizer()
     return len(ssp.tokenize(word))
