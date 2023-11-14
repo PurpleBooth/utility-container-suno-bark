@@ -1,9 +1,9 @@
 import os
 import shlex
+import string
 import subprocess
 from functools import cache
 from tempfile import NamedTemporaryFile
-from textwrap import shorten
 from typing import Annotated, Optional
 
 import nltk
@@ -13,7 +13,6 @@ import torch
 import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models, save_as_prompt
 from scipy.io.wavfile import write as write_wav
-from tqdm import tqdm
 from typer import Argument, FileBinaryWrite, Option
 
 
@@ -69,12 +68,18 @@ def main(
         voice_preset = prompt_file.name
 
     pieces = []
-    for sentence in (pbar := tqdm(sentences, unit="sentence")):
-        pbar.set_description(
-            f"Generating: {shorten(sentence, width=20)}".replace("\n", " ")
-        )
-        audio_array = generate_audio(sentence, history_prompt=voice_preset, silent=True)
-        pieces += [audio_array, silence.copy()]
+    with typer.progressbar(
+        sentences,
+        label="Generating audio",
+        show_eta=True,
+        show_percent=True,
+        show_pos=True,
+    ) as sentences_with_progress:
+        for sentence in sentences_with_progress:
+            audio_array = generate_audio(
+                sentence, history_prompt=voice_preset, silent=True
+            )
+            pieces += [audio_array, silence.copy()]
 
     wav_path = f"{destination_file.name}.wav"
     write_wav(wav_path, SAMPLE_RATE, np.concatenate(pieces).flatten())
@@ -110,8 +115,43 @@ def pre_process_text(text_prompt: str) -> list[str]:
         if len(grouped_sentences[-1]) > 0:
             grouped_sentences[-1] += " "
 
-        grouped_sentences[-1] += sentences.pop(0)
+        # handling the case where the sentence is too long
+        current = sentences.pop(0)
+        split_text = [current]
+
+        if count_syllables_in_phrase_roughly(current) > 30:
+            # if the sentence is too long, split it into phrases
+            split_text = split_phrase(current)
+
+        grouped_sentences[-1] += split_text.pop(0)
+        while len(split_text) > 0:
+            grouped_sentences.append(
+                split_text.pop(0)
+            )  # force a break here for the next sense
+
     return grouped_sentences
+
+
+@cache
+def split_phrase(phrase: str) -> list[str]:
+    words = nltk.word_tokenize(phrase)
+    new = [""]
+
+    while len(words) > 0:
+        word = words.pop(0)
+
+        if len(word) == 1 and word in string.punctuation:
+            new[-1] += word
+            continue
+
+        if count_syllables_in_phrase_roughly(new[-1]) > 30:
+            new.append("")
+
+        new[-1] += " "
+        new[-1] += word
+        new[-1] = new[-1].strip()
+
+    return new
 
 
 @cache

@@ -42,17 +42,17 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.28.80"
+version = "1.28.84"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.28.80-py3-none-any.whl", hash = "sha256:2f43e032ab804a3c39996d524003d2b906e5d86856a32da3427e36912a22d2b7"},
-    {file = "boto3-1.28.80.tar.gz", hash = "sha256:c48c6e04e43f894881b883a28fd032f16805f6cb2771b85f0c97f3fe34db0a41"},
+    {file = "boto3-1.28.84-py3-none-any.whl", hash = "sha256:98b01bbea27740720a06f7c7bc0132ae4ce902e640aab090cfb99ad3278449c3"},
+    {file = "boto3-1.28.84.tar.gz", hash = "sha256:adfb915958d7b54d876891ea1599dd83189e35a2442eb41ca52b04ea716180b6"},
 ]
 
 [package.dependencies]
-botocore = ">=1.31.80,<1.32.0"
+botocore = ">=1.31.84,<1.32.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.7.0,<0.8.0"
 
@@ -61,13 +61,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.31.80"
+version = "1.31.84"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.31.80-py3-none-any.whl", hash = "sha256:1c693c0f8b2553fcbe0df223241191e6f9f60b4245d65c1822c08f659274fef2"},
-    {file = "botocore-1.31.80.tar.gz", hash = "sha256:d43fe303530c12efca9be4ec3a9104e8a669f11d1ba9feb18f0284d751a9672c"},
+    {file = "botocore-1.31.84-py3-none-any.whl", hash = "sha256:d65bc05793d1a8a8c191a739f742876b4b403c5c713dc76beef262d18f7984a2"},
+    {file = "botocore-1.31.84.tar.gz", hash = "sha256:8913bedb96ad0427660dee083aeaa675466eb662bbf1a47781956b5882aadcc5"},
 ]
 
 [package.dependencies]
@@ -76,7 +76,7 @@ python-dateutil = ">=2.1,<3.0.0"
 urllib3 = {version = ">=1.25.4,<2.1", markers = "python_version >= \"3.10\""}
 
 [package.extras]
-crt = ["awscrt (==0.16.26)"]
+crt = ["awscrt (==0.19.10)"]
 
 [[package]]
 name = "certifi"
@@ -347,6 +347,17 @@ python-versions = ">=3.5"
 files = [
     {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
     {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.0.0"
+description = "brain-dead simple config-ini parsing"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
 ]
 
 [[package]]
@@ -723,18 +734,53 @@ tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "pa
 
 [[package]]
 name = "platformdirs"
-version = "3.11.0"
+version = "4.0.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.11.0-py3-none-any.whl", hash = "sha256:e9d171d00af68be50e9202731309c4e658fd8bc76f55c11c7dd760d023bda68e"},
-    {file = "platformdirs-3.11.0.tar.gz", hash = "sha256:cf8ee52a3afdb965072dcc652433e0c7e3e40cf5ea1477cd4b3b1d2eb75495b3"},
+    {file = "platformdirs-4.0.0-py3-none-any.whl", hash = "sha256:118c954d7e949b35437270383a3f2531e99dd93cf7ce4dc8340d3356d30f173b"},
+    {file = "platformdirs-4.0.0.tar.gz", hash = "sha256:cb633b2bcf10c51af60beb0ab06d2f1d69064b43abf4c185ca6b28865f3f9731"},
 ]
 
 [package.extras]
 docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-autodoc-typehints (>=1.24)"]
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
+
+[[package]]
+name = "pluggy"
+version = "1.3.0"
+description = "plugin and hook calling mechanisms for python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pluggy-1.3.0-py3-none-any.whl", hash = "sha256:d89c696a773f8bd377d18e5ecda92b7a3793cbe66c87060a6fb58c7b6e1061f7"},
+    {file = "pluggy-1.3.0.tar.gz", hash = "sha256:cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"},
+]
+
+[package.extras]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
+name = "pytest"
+version = "7.4.3"
+description = "pytest: simple powerful testing with Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest-7.4.3-py3-none-any.whl", hash = "sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac"},
+    {file = "pytest-7.4.3.tar.gz", hash = "sha256:d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+iniconfig = "*"
+packaging = "*"
+pluggy = ">=0.12,<2.0"
+
+[package.extras]
+testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "python-dateutil"
@@ -1535,17 +1581,6 @@ files = [
 urllib3 = ">=2"
 
 [[package]]
-name = "types-tqdm"
-version = "4.66.0.4"
-description = "Typing stubs for tqdm"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "types-tqdm-4.66.0.4.tar.gz", hash = "sha256:a2f0ebd4cfd48f4914395819a176d7947387e1b98f9228fca38f8cac1b59891c"},
-    {file = "types_tqdm-4.66.0.4-py3-none-any.whl", hash = "sha256:8eda4c5123dd66985a4cb44268705cfa18beb32d66772271ae185e92b8b10c40"},
-]
-
-[[package]]
 name = "typing-extensions"
 version = "4.8.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -1576,4 +1611,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "6de6b65bf9a9e6e1853dca3951009cc9c5768fe280fe0d423e89d653cd5a31db"
+content-hash = "ff8c52402200663b86c8f80efb992aa618d38eb53777d4f0086ed37b79f7e3ee"

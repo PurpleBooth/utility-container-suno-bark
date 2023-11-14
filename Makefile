@@ -10,3 +10,7 @@ lint:
 	poetry run python -m isort . --check
 	poetry run python -m black . --check
 	poetry run python -m mypy .
+
+PHONY: test
+test:
+	poetry run python -m pytest tests
