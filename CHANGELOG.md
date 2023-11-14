@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.7.1 - 2023-11-14
+#### Bug Fixes
+- Cache generated phrases for a minor perf bump - (bb85cd0) - Billie Thompson
+- Reduce spacing between words, as this might not be end of sentence - (033ff30) - Billie Thompson
+#### Refactoring
+- Linting - (71de508) - Billie Thompson
+
+- - -
+
 ## v0.7.0 - 2023-11-14
 #### Bug Fixes
 - **(deps)** bump numpy from 1.26.1 to 1.26.2 - (fa63298) - dependabot[bot]
