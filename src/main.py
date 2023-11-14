@@ -5,13 +5,14 @@ import subprocess
 from functools import lru_cache
 from tempfile import NamedTemporaryFile
 from typing import Annotated, Optional
-from rich.progress import track, Progress, SpinnerColumn
+
 import nltk
 import numpy as np
 import requests
 import torch
 import typer
 from bark import SAMPLE_RATE, generate_audio, preload_models, save_as_prompt
+from rich.progress import Progress
 from scipy.io.wavfile import write as write_wav
 from typer import Argument, FileBinaryWrite, Option
 
@@ -19,28 +20,28 @@ cached_generate_audio = lru_cache(maxsize=1024)(generate_audio)
 
 
 def main(
-        source_text_file: Annotated[
-            str,
-            typer.Argument(
-                ...,
-                help="Text file to use as source for generation, could be a file path or url",
-            ),
-        ],
-        destination_file: Annotated[FileBinaryWrite, Argument(...)],
-        voice_prompt: Annotated[
-            Optional[str],
-            Option(
-                ...,
-                help="This will override any voice preset",
-            ),
-        ] = None,
-        voice_preset: Annotated[
-            Optional[str],
-            Option(
-                ...,
-                help="Voice preset, could be one of the built in ones or a path to a saved history",
-            ),
-        ] = "v2/en_speaker_9",
+    source_text_file: Annotated[
+        str,
+        typer.Argument(
+            ...,
+            help="Text file to use as source for generation, could be a file path or url",
+        ),
+    ],
+    destination_file: Annotated[FileBinaryWrite, Argument(...)],
+    voice_prompt: Annotated[
+        Optional[str],
+        Option(
+            ...,
+            help="This will override any voice preset",
+        ),
+    ] = None,
+    voice_preset: Annotated[
+        Optional[str],
+        Option(
+            ...,
+            help="Voice preset, could be one of the built in ones or a path to a saved history",
+        ),
+    ] = "v2/en_speaker_9",
 ) -> None:
     with Progress() as progress:
         task = progress.add_task("Loading models", total=2)
@@ -54,7 +55,9 @@ def main(
         nltk.download("punkt", quiet=True)
         progress.update(task, advance=1)
 
-        if source_text_file.startswith("http:") or source_text_file.startswith("https:"):
+        if source_text_file.startswith("http:") or source_text_file.startswith(
+            "https:"
+        ):
             task = progress.add_task("Downloading text", total=1)
             response = requests.get(source_text_file, timeout=60)
             response.raise_for_status()
