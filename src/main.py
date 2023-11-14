@@ -76,9 +76,7 @@ def main(
         show_pos=True,
     ) as sentences_with_progress:
         for sentence in sentences_with_progress:
-            audio_array = generate_audio(
-                sentence, history_prompt=voice_preset, silent=True
-            )
+            audio_array = make_wav_data(sentence, voice_preset)
             pieces += [audio_array, silence.copy()]
 
     wav_path = f"{destination_file.name}.wav"
@@ -101,6 +99,11 @@ def main(
         ]
     )
     os.unlink(wav_path)
+
+
+@cache
+def make_wav_data(sentence: str, voice_preset: str) -> np.ndarray:
+    return generate_audio(sentence, history_prompt=voice_preset, silent=True)
 
 
 def pre_process_text(text_prompt: str) -> list[str]:
