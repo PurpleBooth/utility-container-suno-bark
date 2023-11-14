@@ -13,7 +13,7 @@ nltk = "*"
 numpy = { version = "*", allow-prereleases = true }
 torch = {version = "*", allow-prereleases = true}
 torchvision = {version = "*", allow-prereleases = true}
-typer = "^0.9.0"
+typer = {extras = ["all"], version = "^0.9.0"}
 torchaudio = "^2.1.0"
 
 [[tool.poetry.source]]
