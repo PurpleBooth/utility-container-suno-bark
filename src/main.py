@@ -57,7 +57,7 @@ def main(
 
     sentences = pre_process_text(text_prompt)
 
-    silence = np.zeros(int(0.2 * SAMPLE_RATE))  # fifth of a second of silence
+    silence = np.zeros(int(0.1 * SAMPLE_RATE))  # tenth of a second of silence
 
     if voice_prompt is not None:
         prompt_file = NamedTemporaryFile(suffix=".npz")
