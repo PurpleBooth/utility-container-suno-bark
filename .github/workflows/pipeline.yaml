@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: poetry install --no-interaction --no-root
       - run: make lint
-        if: github.ref == 'refs/heads/main'
+      - run: make test
       - name: Spot vunerable dependencies
         uses: aquasecurity/trivy-action@master
         with:
