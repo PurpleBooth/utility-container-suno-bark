@@ -173,7 +173,7 @@ jobs:
             type=semver,pattern={{version}},value=v${{ needs.release.outputs.current_version }}
             type=sha
       - name: Deploy build
-        uses: docker/build-push-action@v5.0.0
+        uses: docker/build-push-action@v5.1.0
         id: build-and-push
         with:
           context: .
