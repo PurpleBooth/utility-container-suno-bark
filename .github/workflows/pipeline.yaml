@@ -165,7 +165,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@f3c3cad8ad5e1076ffba2449385b1547f1e3c566
+        uses: docker/metadata-action@e6428a5c4e294a61438ed7f43155db912025b6b3
         with:
           images: ${{ steps.docker.outputs.repository }}
           tags: |
